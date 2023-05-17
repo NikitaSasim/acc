@@ -598,6 +598,44 @@
   </header>
 
 
+  <table style="border:solid">
+      <tr>
+          <td style="border:solid">&nbsp;</td>
+          <td style="border:solid">subtotal</td>
+          {% for income in incomes %}
+          <td style="border:solid">{{income.date}}</td>
+          {% endfor %}
+      </tr>
+
+      {% for category in categories %}
+        <tr>
+          <td style="border:solid">{{category.0 }}</td>
+          <td style="border:solid">{{category.1 }}</td>
+          {% for income in incomes %}
+            {% if income.category.name == category.0 %}
+                <td style="border:solid">{{income.amount}}</td>
+            {% else %}
+                <td style="border:solid">&nbsp;</td>
+            {% endif %}
+          {% endfor %}
+
+      </tr>
+      {% endfor %}
+      <tr>
+          <td style="border:solid">Total</td>
+          <td style="border:solid">{{ total }}</td>
+          {% for income in incomes %}
+          <td style="border:solid">{{income.narration}}</td>
+          {% endfor %}
+      </tr>
+
+
+  </table>
+
+
+
+
+
 
 
 {% block content %}

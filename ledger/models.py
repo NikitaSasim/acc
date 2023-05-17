@@ -47,3 +47,4 @@ class Expenses(models.Model):
 
     def __str__(self):
         return f'{self.amount} {self.user.currency}  {self.date}'
+
