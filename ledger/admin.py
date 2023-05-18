@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import IncomeCategory, Income, ExpensesCategory, Expenses
+from .models import IncomesCategory, Incomes, ExpensesCategory, Expenses
 
 
-@admin.register(IncomeCategory)
+@admin.register(IncomesCategory)
 class IncomeCategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'user']
 
@@ -12,7 +12,7 @@ class ExpensesCategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'user']
 
 
-@admin.register(Income)
+@admin.register(Incomes)
 class IncomeAdmin(admin.ModelAdmin):
     list_display = ['date', 'user', 'category', 'amount', 'narration']
 
