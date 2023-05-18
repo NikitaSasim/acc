@@ -522,9 +522,10 @@
                       <div class="form-floating mb-1">
                         <div class="post-tags" style="margin-left: 0; margin-bottom: 20px">
                           <label for="tags1" class="form-label" style="margin-right: 30px">Tags: </label>
-                          <select class="form-select" name="tags" id="tags1" multiple style="width: 100%; height: 123px">
-
-                              <option value="#"></option>
+                          <select class="form-select" name="tags" id="tags1"  style="width: 100%; height: 123px">
+                              {% for category in user.get_incomes_category %}
+                              <option value="{{category.id}}">{{category.name}}</option>
+                              {% endfor %}
 
                           </select>
                         </div>
@@ -597,20 +598,22 @@
     </div>
   </header>
 
+  {% if incomes %}
 
-  <table style="border:solid">
+  <table>
+      <thead>Incomes</thead>
       <tr>
           <td style="border:solid">&nbsp;</td>
-          <td style="border:solid">subtotal</td>
+          <th style="border:solid">subtotal</th>
           {% for income in incomes %}
-          <td style="border:solid">{{income.date}}</td>
+          <th style="border:solid">{{income.date}}</th>
           {% endfor %}
       </tr>
 
-      {% for category in categories %}
+      {% for category in incomes_categories %}
         <tr>
-          <td style="border:solid">{{category.0 }}</td>
-          <td style="border:solid">{{category.1 }}</td>
+          <th style="border:solid">{{category.0 }}</th>
+          <th style="border:solid">{{category.1 }}</th>
           {% for income in incomes %}
             {% if income.category.name == category.0 %}
                 <td style="border:solid">{{income.amount}}</td>
@@ -622,15 +625,67 @@
       </tr>
       {% endfor %}
       <tr>
-          <td style="border:solid">Total</td>
-          <td style="border:solid">{{ total }}</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
           {% for income in incomes %}
           <td style="border:solid">{{income.narration}}</td>
           {% endfor %}
       </tr>
+      <tr>
+          <th style="border:solid">Total</th>
+          <td style="border:solid">{{ incomes_total }} {{user.currency}}</td>
+      </tr>
 
 
   </table>
+
+  {% else %}
+  <p>No incomes</p>
+  {% endif %}
+    <p></p>
+    <p></p>
+  {% if expenses %}
+  <table>
+      <thead>Expenses</thead>
+      <tr>
+          <td style="border:solid">&nbsp;</td>
+          <th style="border:solid">subtotal</th>
+          {% for expense in expenses %}
+          <th style="border:solid">{{expense.date}}</th>
+          {% endfor %}
+      </tr>
+
+      {% for category in expenses_categories %}
+        <tr>
+          <th style="border:solid">{{category.0 }}</th>
+          <th style="border:solid">{{category.1 }}</th>
+          {% for expense in expenses %}
+            {% if expense.category.name == category.0 %}
+                <td style="border:solid">{{expense.amount}}</td>
+            {% else %}
+                <td style="border:solid">&nbsp;</td>
+            {% endif %}
+          {% endfor %}
+
+      </tr>
+      {% endfor %}
+      <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          {% for expense in expenses %}
+          <td style="border:solid">{{expense.narration}}</td>
+          {% endfor %}
+      </tr>
+      <tr>
+          <th style="border:solid">Total</th>
+          <td style="border:solid">{{ expenses_total }} {{user.currency}}</td>
+      </tr>
+
+
+  </table>
+  {% else %}
+  <p>No expenses</p>
+  {% endif %}
 
 
 
