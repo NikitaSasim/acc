@@ -9,3 +9,10 @@ class IncomesForm(forms.ModelForm):
         fields = ('date', 'category', 'amount', 'narration')
 
 
+class ExpensesForm(forms.ModelForm):
+
+    class Meta:
+        model = Expenses
+        fields = ('date', 'category', 'amount', 'narration')
+
+

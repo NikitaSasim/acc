@@ -543,6 +543,47 @@
                 </div>
               </div>
             </li>
+            <li>
+              <div class="dropdown">
+                <a class="nav-link text-black dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                  New expense
+                </a>
+                <div class="dropdown-menu create-new-transaction">
+                  <form method="POST" action="{% url 'add-expense' %}" class="note-form" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="modal-header " style="Padding:8px 16px; justify-content: center;">
+                      <h7 class="modal-title"><b>New expense</b></h7>
+                    </div>
+
+
+                      <div style="Padding:10px 20px;">
+                          <label for="date" class="form-label" style="margin-right: 30px">Date: </label>
+                          <input type="date" class="form-control" id="date" name="date" required style="margin-bottom: 20px" ></input>
+                          <label for="amount" class="form-label" style="margin-right: 30px">Amount: </label>
+                          <input type="number" min="0.01" step="0.01" max="9999999999999.99" class="form-control" id="amount" name="amount" required style="margin-bottom: 20px"></input>
+                          <textarea class="form-control" id="narration" name="narration" placeholder="Start writing narration here.." style="height: 150px; margin-bottom: 20px" maxlength=100></textarea>
+                          <div class="form-floating mb-1">
+                            <div class="post-tags" style="margin-left: 0; margin-bottom: 20px">
+                              <label for="category" class="form-label" style="margin-right: 30px">Category: </label>
+                              <select class="form-select" name="category" id="category"  required style="width: 100%">
+                                  {% for category in user.get_expenses_category %}
+                                  <option value="{{category.id}}">{{category.name}}</option>
+                                  {% endfor %}
+
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="d-grid gap-3 justify-content-sm-end">
+                            <p style="Margin: 12px 0px">
+                              <input class="btn btn-outline-dark" type="reset" value="Reset" style="Padding: 2px 24px; Margin: 0px 8px">
+                              <input class="btn btn-primary" type="submit" value="Post" style=" Padding: 2px 36px">
+                            </p>
+                          </div>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </li>
             <li><a href="#" class="nav-link px-2 text-black">Settings</a></li>
 
         </ul>
