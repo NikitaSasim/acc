@@ -4,7 +4,7 @@ from .models import Incomes, IncomesCategory, ExpensesCategory, Expenses
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .forms import IncomesForm
+from .forms import IncomesForm, ExpensesForm
 
 
 class HomeView(TemplateView):
@@ -40,9 +40,7 @@ class CreateIncome(View):
 
     @method_decorator(login_required)
     def post(self, request):
-        print("View works")
         if request.method == 'POST':
-            print(request.POST)
             form = IncomesForm(request.POST)
 
             if form.is_valid():
@@ -54,5 +52,25 @@ class CreateIncome(View):
 
             else:
                 form = IncomesForm()
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class CreateExpense(View):
+
+    @method_decorator(login_required)
+    def post(self, request):
+        if request.method == 'POST':
+            form = ExpensesForm(request.POST)
+
+            if form.is_valid():
+
+                new_expense = form.save(commit=False)
+                new_expense.user = request.user
+                new_expense.save()
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+            else:
+                form = ExpensesForm()
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

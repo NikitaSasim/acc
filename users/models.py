@@ -22,3 +22,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_incomes_category(self):
         return (self.incomes_category.all())
+
+    def get_expenses_category(self):
+        return (self.expenses_category.all())
