@@ -1,6 +1,10 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from .models import Incomes, IncomesCategory, ExpensesCategory, Expenses
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from .forms import IncomesForm
 
 
 class HomeView(TemplateView):
@@ -30,3 +34,25 @@ class HomeView(TemplateView):
         }
 
         return render(request, self.template_name, params)
+
+
+class CreateIncome(View):
+
+    @method_decorator(login_required)
+    def post(self, request):
+        print("View works")
+        if request.method == 'POST':
+            print(request.POST)
+            form = IncomesForm(request.POST)
+
+            if form.is_valid():
+
+                new_income = form.save(commit=False)
+                new_income.user = request.user
+                new_income.save()
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+            else:
+                form = IncomesForm()
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
