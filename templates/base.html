@@ -641,6 +641,33 @@
 
   <table>
       <thead>Incomes</thead>
+            <li>
+              <div class="dropdown">
+                <a class="btn btn-warning" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                  Add category
+                </a>
+                <div class="dropdown-menu create-new-transaction">
+                  <form method="POST" action="{% url 'add-incomes-category' %}" class="note-form" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="modal-header " style="Padding:8px 16px; justify-content: center;">
+                      <h7 class="modal-title"><b>Write category name</b></h7>
+                    </div>
+
+
+                      <div style="Padding:10px 20px;">
+
+                          <textarea class="form-control" id="name" name="name" required placeholder="Start writing here.." style="height: 100px; margin-bottom: 20px" maxlength=50></textarea>
+
+                          <div class="d-grid gap-3 justify-content-sm-end">
+                            <p style="Margin: 12px 0px">
+                              <input class="btn btn-outline-dark" type="reset" value="Reset" style="Padding: 2px 24px; Margin: 0px 8px">
+                              <input class="btn btn-primary" type="submit" value="Post" style=" Padding: 2px 36px">
+                            </p>
+                          </div>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </li>
       <tr>
           <td style="border:solid">&nbsp;</td>
           <th style="border:solid">subtotal</th>
@@ -686,6 +713,33 @@
   {% if expenses %}
   <table>
       <thead>Expenses</thead>
+      <li>
+              <div class="dropdown">
+                <a class="btn btn-warning" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                  Add category
+                </a>
+                <div class="dropdown-menu create-new-transaction">
+                  <form method="POST" action="{% url 'add-expenses-category' %}" class="note-form" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="modal-header " style="Padding:8px 16px; justify-content: center;">
+                      <h7 class="modal-title"><b>Write category name</b></h7>
+                    </div>
+
+
+                      <div style="Padding:10px 20px;">
+
+                          <textarea class="form-control" id="name" name="name" required placeholder="Start writing here.." style="height: 100px; margin-bottom: 20px" maxlength=50></textarea>
+
+                          <div class="d-grid gap-3 justify-content-sm-end">
+                            <p style="Margin: 12px 0px">
+                              <input class="btn btn-outline-dark" type="reset" value="Reset" style="Padding: 2px 24px; Margin: 0px 8px">
+                              <input class="btn btn-primary" type="submit" value="Post" style=" Padding: 2px 36px">
+                            </p>
+                          </div>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </li>
       <tr>
           <td style="border:solid">&nbsp;</td>
           <th style="border:solid">subtotal</th>
