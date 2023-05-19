@@ -4,7 +4,7 @@ from .models import Incomes, IncomesCategory, ExpensesCategory, Expenses
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .forms import IncomesForm, ExpensesForm
+from .forms import IncomesForm, ExpensesForm, IncomesCategoryForm, ExpensesCategoryForm
 
 
 class HomeView(TemplateView):
@@ -74,3 +74,67 @@ class CreateExpense(View):
                 form = ExpensesForm()
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class AddCategoryIncomes(View):
+
+    @method_decorator(login_required)
+    def post(self, request):
+        if request.method == 'POST':
+            form = IncomesCategoryForm(request.POST)
+
+            if form.is_valid() and form.cleaned_data['name'].strip() not in [category.name for category in
+                                                                             request.user.get_incomes_category()]:
+
+                new_category = form.save(commit=False)
+                new_category.user = request.user
+                new_category.save()
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+            else:
+                form = IncomesCategoryForm()
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class AddCategoryExpenses(View):
+
+    @method_decorator(login_required)
+    def post(self, request):
+        if request.method == 'POST':
+            form = ExpensesCategoryForm(request.POST)
+
+            if form.is_valid() and form.cleaned_data['name'].strip() not in [category.name for category in
+                                                                             request.user.get_expenses_category()]:
+
+                new_category = form.save(commit=False)
+                new_category.user = request.user
+                new_category.save()
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+            else:
+                form = IncomesCategoryForm()
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class DeleteIncomesCategoryView(View):
+    @method_decorator(login_required)
+    def post(self, request, id):
+        category = IncomesCategory.objects.get(id=id)
+        if request.user == category.user:
+            category.delete()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class DeleteExpensesCategoryView(View):
+    @method_decorator(login_required)
+    def post(self, request, id):
+        category = IncomesCategory.objects.get(id=id)
+        if request.user == category.user:
+            category.delete()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

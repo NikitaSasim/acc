@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # import international.models
 # choices = international.models.currencies
@@ -14,6 +15,11 @@ class IncomesCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_incomes_category_url(self):
+        return reverse("delete-incomes-category", args=[self.id])
+
+
 
 
 class Incomes(models.Model):
@@ -35,6 +41,9 @@ class ExpensesCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_expenses_category_url(self):
+        return reverse("delete-expenses-category", args=[self.id])
 
 
 class Expenses(models.Model):
