@@ -639,7 +639,7 @@
 
   {% if incomes %}
 
-  <table>
+  <table style="margin-left: 10px">
       <thead>Incomes</thead>
             <li>
               <div class="dropdown">
@@ -680,15 +680,50 @@
         <tr>
 
             <th style="border:solid">
-                {{ category.0.name }} {{ category.0.id }}
-                <div class="d-flex align-items-end flex-column mb-3">
-                  <form action="{% url 'delete-incomes-category' %}" method="post">
-                    {% csrf_token %}
-                  <button type="submit" class="btn btn-outline-danger btn-sm" >Delete</button>
-                  <input type="hidden" name="category_id" value="{{ category.0.id }}">
-                  </form>
 
-                </div>
+                <form action="{% url 'delete-incomes-category' %}" method="post">
+                  {% csrf_token %}
+
+                  <a class="nav-link px-2 text-black" type="button" data-bs-toggle="modal" aria-expanded="false" data-bs-target="#exampleModal{{ category.0.id }}" data-bs-auto-close="outside">
+                    {{ category.0.name }}
+
+                  </a>
+
+<!--                  <button class="nav-link text-black"-->
+<!--                          type="button"-->
+<!--                          data-bs-toggle="modal"-->
+<!--                          data-bs-target="#exampleModal{{ category.0.id }}">-->
+
+<!--                          {{ category.0.name }}-->
+
+<!--                  </button>-->
+
+                  <div class="modal fade" id="exampleModal{{ category.0.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure you want to delete category "{{ category.0.name }}"?</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                            <input type="hidden" name="category_id" value="{{ category.0.id }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+
+<!--                <div class="d-flex align-items-end flex-column mb-3">-->
+<!--                  <form action="{% url 'delete-incomes-category' %}" method="post">-->
+<!--                    {% csrf_token %}-->
+<!--                  <button type="submit" class="btn btn-outline-danger btn-sm" >Delete</button>-->
+<!--                  <input type="hidden" name="category_id" value="{{ category.0.id }}">-->
+<!--                  </form>-->
+
+<!--                </div>-->
 
             </th>
           <th style="border:solid">{{category.1 }}</th>

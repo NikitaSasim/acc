@@ -132,11 +132,10 @@ class DeleteIncomesCategoryView(View):
         #     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     def post(self, request):
+        print(request.POST['category_id'])
         category = IncomesCategory.objects.get(id=request.POST['category_id'])
         if request.user == category.user:
             category.delete()
-            print(category.name)
-            print(category.id)
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
