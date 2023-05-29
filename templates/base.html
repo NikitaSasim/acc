@@ -604,10 +604,7 @@
                 <div class="dropdown">
                   <a class="nav-link px-2 text-black dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                     Hello, {{user.email}}!
-                    <img src="#" alt="" class="avatar_in_header" width="24" height="24">
 
-                    <img src="#" style="width: 20px; height: 20px; z-index: 10000; position: absolute; bottom: 5px; right: 12px">
-                    {
                   </a>
                   <div class="dropdown-menu" style="Padding:0px 0px">
                     <li>
@@ -681,28 +678,20 @@
 
             <th style="border:solid">
 
+
                 <form action="{% url 'delete-incomes-category' %}" method="post">
                   {% csrf_token %}
 
                   <a class="nav-link px-2 text-black" type="button" data-bs-toggle="modal" aria-expanded="false" data-bs-target="#exampleModal{{ category.0.id }}" data-bs-auto-close="outside">
-                    {{ category.0.name }}
+
 
                   </a>
-
-<!--                  <button class="nav-link text-black"-->
-<!--                          type="button"-->
-<!--                          data-bs-toggle="modal"-->
-<!--                          data-bs-target="#exampleModal{{ category.0.id }}">-->
-
-<!--                          {{ category.0.name }}-->
-
-<!--                  </button>-->
 
                   <div class="modal fade" id="exampleModal{{ category.0.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure you want to delete category "{{ category.0.name }}"?</h1>
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure you want to delete category <br>"{{ category.0.name }}"?</h1>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-footer">
@@ -716,14 +705,26 @@
 
                 </form>
 
-<!--                <div class="d-flex align-items-end flex-column mb-3">-->
-<!--                  <form action="{% url 'delete-incomes-category' %}" method="post">-->
-<!--                    {% csrf_token %}-->
-<!--                  <button type="submit" class="btn btn-outline-danger btn-sm" >Delete</button>-->
-<!--                  <input type="hidden" name="category_id" value="{{ category.0.id }}">-->
-<!--                  </form>-->
+                <div class="col p-0">
+                <div class="dropdown">
+                  <a class="nav-link px-2 text-black dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                    {{ category.0.name }}
 
-<!--                </div>-->
+                  </a>
+                  <div class="dropdown-menu" style="Padding:0px 0px; width: 200px">
+                      <div class="row align-items-center">
+
+                            <li>
+                              <a class="px-4 text-black" href="#" style="text-decoration: none;">Edit category</a>
+                            </li>
+                            <li>
+                                <a class="px-4 text-black" type="button" data-bs-toggle="modal" aria-expanded="false" style="text-decoration: none;" data-bs-target="#exampleModal{{ category.0.id }}" data-bs-auto-close="outside">Delete category</a>
+                            </li>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
 
             </th>
           <th style="border:solid">{{category.1 }}</th>
