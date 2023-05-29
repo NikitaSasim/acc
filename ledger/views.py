@@ -12,8 +12,8 @@ class HomeView(TemplateView):
 
     def get(self, request):
         incomes = Incomes.objects.filter(user=request.user).order_by('date')
-        incomes_categories = [[k, sum(list(income.amount for income in incomes.filter(category__name=k)))]
-                      for k in list(category.name for category in request.user.incomes_category.all())]
+        incomes_categories = [[k, sum(list(income.amount for income in incomes.filter(category__name=k))), ]
+                      for k in list(category for category in request.user.incomes_category.all())]
 
         incomes_total = sum([income.amount for income in incomes])
 
@@ -22,6 +22,9 @@ class HomeView(TemplateView):
                              for k in list(category.name for category in request.user.expenses_category.all())]
 
         expenses_total = sum([expenses.amount for expenses in expenses])
+
+        # for category in IncomesCategory.objects.all():
+        #     print(category.get_incomes_category_url())
 
 
         params = {
@@ -120,13 +123,22 @@ class AddCategoryExpenses(View):
 
 class DeleteIncomesCategoryView(View):
     @method_decorator(login_required)
-    def post(self, request, id):
-        category = IncomesCategory.objects.get(id=id)
+    # def post(self, request, id):
+    #     category = IncomesCategory.objects.get(id=request.POST['comment_id'])
+        # if request.user == category.user:
+        #     category.delete()
+        #     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        # else:
+        #     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    def post(self, request):
+        category = IncomesCategory.objects.get(id=request.POST['category_id'])
         if request.user == category.user:
             category.delete()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        else:
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            print(category.name)
+            print(category.id)
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 class DeleteExpensesCategoryView(View):
