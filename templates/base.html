@@ -707,7 +707,7 @@
 
                 <div class="col p-0">
                 <div class="dropdown">
-                  <a class="nav-link px-2 text-black dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                  <a class="nav-link px-2 text-black" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                     {{ category.0.name }}
 
                   </a>
@@ -757,7 +757,80 @@
           <th style="border:solid">{{category.1 }}</th>
           {% for income in incomes %}
             {% if income.category.name == category.0.name %}
-                <td style="border:solid">{{income.amount}}</td>
+                <td style="border:solid">
+                    <form action="{% url 'delete-incomes-category' %}" method="post">
+                  {% csrf_token %}
+
+                  <a class="nav-link px-2 text-black" type="button" data-bs-toggle="modal" aria-expanded="false" data-bs-target="#deleteIncomeCategoryModal{{ category.0.id }}" data-bs-auto-close="outside">
+
+
+                  </a>
+
+                  <div class="modal fade" id="deleteIncomeCategoryModal{{ category.0.id }}" tabindex="-1" aria-labelledby="deleteIncomeCategoryModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="deleteIncomeCategoryModal">Are you sure you want to delete category <br>"{{ category.0.name }}"?</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                            <input type="hidden" name="category_id" value="{{ category.0.id }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+
+                <div class="col p-0">
+                <div class="dropdown">
+                  <a class="nav-link px-2 text-black " type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                    {{income.amount}}
+
+                  </a>
+                  <div class="dropdown-menu" style="Padding:0px 0px; width: 200px">
+                      <div class="row align-items-center">
+
+                            <li>
+
+
+                              <div class="dropdown">
+                                <a class="px-4 text-black" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                                  Edit category
+                                </a>
+                                <div class="dropdown-menu create-new-transaction">
+                                  <form method="POST" action="{% url 'edit-incomes-category' %}" class="note-form" enctype="multipart/form-data">{% csrf_token %}
+                                    <div class="modal-header " style="Padding:8px 16px; justify-content: center;">
+                                      <a class="px-4 text-black" style="text-decoration: none;">Edit category name</a>
+                                    </div>
+
+
+                                      <div style="Padding:10px 20px;">
+
+                                          <input class="form-control" value="{{ category.0.name }}" id="name" name="name"  required placeholder="Start writing here.." style="height: 100px; margin-bottom: 20px" maxlength=50></input>
+                                          <input type="hidden" name="category_id" value="{{ category.0.id }}">
+                                          <div class="d-grid gap-3 justify-content-sm-end">
+                                            <p style="Margin: 12px 0px">
+                                              <input class="btn btn-outline-dark" type="reset" value="Reset" style="Padding: 2px 24px; Margin: 0px 8px">
+                                              <input class="btn btn-primary" type="submit" value="Post" style=" Padding: 2px 36px">
+
+                                            </p>
+                                          </div>
+                                      </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                                <a class="px-4 text-black" type="button" data-bs-toggle="modal" aria-expanded="false" style="text-decoration: none;" data-bs-target="#deleteIncomeCategoryModal{{ category.0.id }}" data-bs-auto-close="outside">Delete category</a>
+                            </li>
+                      </div>
+                  </div>
+                </div>
+              </div>
+                </td>
             {% else %}
                 <td style="border:solid">&nbsp;</td>
             {% endif %}
