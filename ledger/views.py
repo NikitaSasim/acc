@@ -153,3 +153,29 @@ class EditIncomesCategoryView(View):
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
+class DeleteIncomeView(View):
+    @method_decorator(login_required)
+
+    def post(self, request):
+
+        income = Incomes.objects.get(id=request.POST['income_id'])
+        if request.user == income.user:
+            income.delete()
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class EditIncomeView(View):
+    @method_decorator(login_required)
+    def post(self, request):
+        income = Incomes.objects.get(id=request.POST['income_id'])
+        if request.user == income.user:
+            income.amount = request.POST['amount']
+            income.category = IncomesCategory.objects.get(id=request.POST['category_id'])
+            income.date = request.POST['date']
+            income.narration = request.POST['narration']
+
+            income.save()
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

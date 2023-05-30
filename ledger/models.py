@@ -34,6 +34,8 @@ class Incomes(models.Model):
         return f'{self.amount} {self.user.currency}  {self.date}'
 
 
+
+
 class ExpensesCategory(models.Model):
     name = models.CharField(max_length=50)
     user = models.ForeignKey(

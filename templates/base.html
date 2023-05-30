@@ -758,25 +758,25 @@
           {% for income in incomes %}
             {% if income.category.name == category.0.name %}
                 <td style="border:solid">
-                    <form action="{% url 'delete-incomes-category' %}" method="post">
+                    <form action="{% url 'delete-income' %}" method="post">
                   {% csrf_token %}
 
-                  <a class="nav-link px-2 text-black" type="button" data-bs-toggle="modal" aria-expanded="false" data-bs-target="#deleteIncomeCategoryModal{{ category.0.id }}" data-bs-auto-close="outside">
+                  <a class="nav-link px-2 text-black" type="button" data-bs-toggle="modal" aria-expanded="false" data-bs-target="#deleteIncomeModal{{ income.id }}" data-bs-auto-close="outside">
 
 
                   </a>
 
-                  <div class="modal fade" id="deleteIncomeCategoryModal{{ category.0.id }}" tabindex="-1" aria-labelledby="deleteIncomeCategoryModalLabel" aria-hidden="true">
+                  <div class="modal fade" id="deleteIncomeModal{{ income.id }}" tabindex="-1" aria-labelledby="deleteIncomeModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="deleteIncomeCategoryModal">Are you sure you want to delete category <br>"{{ category.0.name }}"?</h1>
+                          <h1 class="modal-title fs-5" id="deleteIncomeModal">Are you sure you want to delete transaction <br>"{{ income.amount }} {{ income.narration }}"?</h1>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                           <button type="submit" class="btn btn-danger">Delete</button>
-                            <input type="hidden" name="category_id" value="{{ category.0.id }}">
+                            <input type="hidden" name="income_id" value="{{ income.id }}">
                         </div>
                       </div>
                     </div>
@@ -798,24 +798,44 @@
 
                               <div class="dropdown">
                                 <a class="px-4 text-black" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                                  Edit category
+                                  Edit transaction
                                 </a>
                                 <div class="dropdown-menu create-new-transaction">
-                                  <form method="POST" action="{% url 'edit-incomes-category' %}" class="note-form" enctype="multipart/form-data">{% csrf_token %}
+                                  <form method="POST" action="{% url 'edit-income' %}" class="note-form" enctype="multipart/form-data">{% csrf_token %}
+
                                     <div class="modal-header " style="Padding:8px 16px; justify-content: center;">
-                                      <a class="px-4 text-black" style="text-decoration: none;">Edit category name</a>
+                                      <h7 class="modal-title"><b>New income</b></h7>
                                     </div>
 
 
                                       <div style="Padding:10px 20px;">
+                                          <label for="date" class="form-label" style="margin-right: 30px">Date: </label>
+                                          <input type="date" value="{{ income.date|date:'Y-m-d' }}" class="form-control" id="date" name="date" required style="margin-bottom: 20px" ></input>
+                                          <label for="amount" class="form-label" style="margin-right: 30px">Amount: </label>
+                                          <input type="number" value="{{ income.amount }}" min="0.01" step="0.01" max="9999999999999.99" class="form-control" id="amount" name="amount" required style="margin-bottom: 20px"></input>
+                                          <input class="form-control" value="{{ income.narration }}" id="narration" name="narration" placeholder="Start writing narration here.." style="height: 150px; margin-bottom: 20px" maxlength=100></input>
+                                          <input type="hidden" name="income_id" value="{{ income.id }}">
+                                          <div class="form-floating mb-1">
+                                            <div class="post-tags" style="margin-left: 0; margin-bottom: 20px">
+                                              <label for="category" class="form-label" style="margin-right: 30px">Category: </label>
+                                              <select class="form-select" name="category_id" id="category_id"  required style="width: 100%">
+                                                  {% for category in user.get_incomes_category %}
 
-                                          <input class="form-control" value="{{ category.0.name }}" id="name" name="name"  required placeholder="Start writing here.." style="height: 100px; margin-bottom: 20px" maxlength=50></input>
-                                          <input type="hidden" name="category_id" value="{{ category.0.id }}">
+                                                   {% if income.category == category %}
+                                                        <option  selected value="{{category.id}}">{{category}}</option>
+                                                    {% else %}
+                                                        <option value="{{category.id}}">{{category}}</option>
+                                                    {% endif %}
+                                                  {% endfor %}
+
+                                              </select>
+                                            </div>
+                                          </div>
+
                                           <div class="d-grid gap-3 justify-content-sm-end">
                                             <p style="Margin: 12px 0px">
                                               <input class="btn btn-outline-dark" type="reset" value="Reset" style="Padding: 2px 24px; Margin: 0px 8px">
                                               <input class="btn btn-primary" type="submit" value="Post" style=" Padding: 2px 36px">
-
                                             </p>
                                           </div>
                                       </div>
@@ -824,7 +844,7 @@
                               </div>
                             </li>
                             <li>
-                                <a class="px-4 text-black" type="button" data-bs-toggle="modal" aria-expanded="false" style="text-decoration: none;" data-bs-target="#deleteIncomeCategoryModal{{ category.0.id }}" data-bs-auto-close="outside">Delete category</a>
+                                <a class="px-4 text-black" type="button" data-bs-toggle="modal" aria-expanded="false" style="text-decoration: none;" data-bs-target="#deleteIncomeModal{{ income.id }}" data-bs-auto-close="outside">Delete transaction</a>
                             </li>
                       </div>
                   </div>
