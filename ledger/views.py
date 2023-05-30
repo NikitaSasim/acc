@@ -19,13 +19,9 @@ class HomeView(TemplateView):
 
         expenses = Expenses.objects.filter(user=request.user).order_by('date')
         expenses_categories = [[k, sum(list(expense.amount for expense in expenses.filter(category__name=k)))]
-                             for k in list(category.name for category in request.user.expenses_category.all())]
+                             for k in list(category for category in request.user.expenses_category.all())]
 
         expenses_total = sum([expenses.amount for expenses in expenses])
-
-        # for category in IncomesCategory.objects.all():
-        #     print(category.get_incomes_category_url())
-
 
         params = {
             'incomes': incomes,
@@ -123,20 +119,9 @@ class AddCategoryExpenses(View):
 
 class DeleteIncomesCategoryView(View):
     @method_decorator(login_required)
-
     def post(self, request):
 
         category = IncomesCategory.objects.get(id=request.POST['category_id'])
-        if request.user == category.user:
-            category.delete()
-
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
-class DeleteExpensesCategoryView(View):
-    @method_decorator(login_required)
-    def post(self, request):
-        category = ExpensesCategory.objects.get(id=request.POST['category_id'])
         if request.user == category.user:
             category.delete()
 
@@ -177,5 +162,51 @@ class EditIncomeView(View):
             income.narration = request.POST['narration']
 
             income.save()
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class DeleteExpensesCategoryView(View):
+    @method_decorator(login_required)
+    def post(self, request):
+        category = ExpensesCategory.objects.get(id=request.POST['category_id'])
+        if request.user == category.user:
+            category.delete()
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class EditExpensesCategoryView(View):
+    @method_decorator(login_required)
+    def post(self, request):
+        category = ExpensesCategory.objects.get(id=request.POST['category_id'])
+        if request.user == category.user:
+            category.name = request.POST['name']
+            category.save()
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class DeleteExpenseView(View):
+    @method_decorator(login_required)
+    def post(self, request):
+        expense = Expenses.objects.get(id=request.POST['expense_id'])
+        if request.user == expense.user:
+            expense.delete()
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class EditExpenseView(View):
+    @method_decorator(login_required)
+    def post(self, request):
+        expense = Expenses.objects.get(id=request.POST['expense_id'])
+        if request.user == expense.user:
+            expense.amount = request.POST['amount']
+            expense.category = ExpensesCategory.objects.get(id=request.POST['category_id'])
+            expense.date = request.POST['date']
+            expense.narration = request.POST['narration']
+
+            expense.save()
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
