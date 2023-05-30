@@ -123,16 +123,9 @@ class AddCategoryExpenses(View):
 
 class DeleteIncomesCategoryView(View):
     @method_decorator(login_required)
-    # def post(self, request, id):
-    #     category = IncomesCategory.objects.get(id=request.POST['comment_id'])
-        # if request.user == category.user:
-        #     category.delete()
-        #     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        # else:
-        #     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
     def post(self, request):
-        print(request.POST['category_id'])
+
         category = IncomesCategory.objects.get(id=request.POST['category_id'])
         if request.user == category.user:
             category.delete()
@@ -142,10 +135,20 @@ class DeleteIncomesCategoryView(View):
 
 class DeleteExpensesCategoryView(View):
     @method_decorator(login_required)
-    def post(self, request, id):
-        category = IncomesCategory.objects.get(id=id)
+    def post(self, request):
+        category = ExpensesCategory.objects.get(id=request.POST['category_id'])
         if request.user == category.user:
             category.delete()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        else:
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class EditIncomesCategoryView(View):
+    @method_decorator(login_required)
+    def post(self, request):
+        category = IncomesCategory.objects.get(id=request.POST['category_id'])
+        if request.user == category.user:
+            category.delete()
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+

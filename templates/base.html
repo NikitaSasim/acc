@@ -682,16 +682,16 @@
                 <form action="{% url 'delete-incomes-category' %}" method="post">
                   {% csrf_token %}
 
-                  <a class="nav-link px-2 text-black" type="button" data-bs-toggle="modal" aria-expanded="false" data-bs-target="#exampleModal{{ category.0.id }}" data-bs-auto-close="outside">
+                  <a class="nav-link px-2 text-black" type="button" data-bs-toggle="modal" aria-expanded="false" data-bs-target="#deleteIncomeCategoryModal{{ category.0.id }}" data-bs-auto-close="outside">
 
 
                   </a>
 
-                  <div class="modal fade" id="exampleModal{{ category.0.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal fade" id="deleteIncomeCategoryModal{{ category.0.id }}" tabindex="-1" aria-labelledby="deleteIncomeCategoryModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure you want to delete category <br>"{{ category.0.name }}"?</h1>
+                          <h1 class="modal-title fs-5" id="deleteIncomeCategoryModal">Are you sure you want to delete category <br>"{{ category.0.name }}"?</h1>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-footer">
@@ -718,7 +718,7 @@
                               <a class="px-4 text-black" href="#" style="text-decoration: none;">Edit category</a>
                             </li>
                             <li>
-                                <a class="px-4 text-black" type="button" data-bs-toggle="modal" aria-expanded="false" style="text-decoration: none;" data-bs-target="#exampleModal{{ category.0.id }}" data-bs-auto-close="outside">Delete category</a>
+                                <a class="px-4 text-black" type="button" data-bs-toggle="modal" aria-expanded="false" style="text-decoration: none;" data-bs-target="#deleteIncomeCategoryModal{{ category.0.id }}" data-bs-auto-close="outside">Delete category</a>
                             </li>
                       </div>
                   </div>
