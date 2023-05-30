@@ -148,7 +148,8 @@ class EditIncomesCategoryView(View):
     def post(self, request):
         category = IncomesCategory.objects.get(id=request.POST['category_id'])
         if request.user == category.user:
-            category.delete()
+            category.name = request.POST['name']
+            category.save()
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
