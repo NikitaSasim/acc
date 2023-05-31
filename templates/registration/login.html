@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+
+{% block content %}
+<div class="text-center">
+    <div class="container" style="margin-top: 10%; width: 40vh;">
+        <main class="form-signin">
+        <form method="POST">
+            <h1 class="h3 mb-3 fw-normal">Hello</h1>
+            {% csrf_token %}
+            <input type="email" style="margin-bottom: 1%;" class="form-control" name="username" id="inputEmail" placeholder="Email" required >
+            <input type="password" class="form-control" name="password" id="inputPass" placeholder="Password" required>
+        
+            <div class="checkbox mb-3">
+            <label>
+                <a href="{% url 'password_reset' %}">Forgot password?</a>
+            </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+
+
+          
+            <p class="mt-5 mb-3 text-muted">©Blog</p>
+        </form>
+        </main>
+    </div>
+</div>
+{% endblock%}

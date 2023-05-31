@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+    <h2 class="text-center pt-2">Create new account</h2>
+
+    <section class="w-500 d-flex justify-content-center ">
+        <div class="bg-white " >
+            <div class="container">
+                {% if user_form.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong> {{user_form.errors}}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+
+      <form style="width: 40%;" method="post" class="pt-2" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-floating mb-1 ">
+            <input type="email" id="email" name="email" class="form-control" placeholder="Email address"
+                   value="{{ user_form.email.value }}" required>
+            <label for="email">Email address*</label>
+        </div>
+
+
+        <div class="form-floating mb-1">
+          <input type="password" id="password1" name="password1" class="form-control" placeholder="Password*" required>
+            <label for="password1">Password*</label>
+        </div>
+
+        <div class="form-floating mb-1">
+            <input type="password" id="password2" name="password2" class="form-control"
+                   placeholder="Repeat your password*" required>
+            <label for="password2">Repeat your password*</label>
+        </div>
+
+
+        <div class="form-floating mb-1">
+            <input type="text" id="currency" name="currency" class="form-control" placeholder="Currency"
+            value="{{ user_form.currency }}">
+            <label for="currency">Currency</label>
+        </div>
+
+
+
+
+        <div class="col d-flex justify-content-center mt-3" >
+          <button type="submit" class="btn btn-primary btn-block mb-2">Create new account</button>
+        </div>
+
+      </form>
+    </section>
+</section>
+{% endblock content %}
+

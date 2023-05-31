@@ -500,54 +500,35 @@
       <div class="d-flex flex-wrap align-items-center justify-content-between">
         <ul class="nav col-12 col-lg-auto mb-2 mb-md-0">
             <li><a href="#" class="nav-link text-secondary">Home</a></li>
-            <li><a href="#" class="nav-link text-black">Explore</a></li>
-            <li><a href="#" class="nav-link text-black">Feed</a></li>
             <li><a href="#" class="nav-link px-2 text-black">Settings</a></li>
 
         </ul>
-        <form class="col-12 col-lg-auto mb-2 p-0 mb-lg-0" method="post" action="#"> {% csrf_token %}
-          <div class="d-flex">
-            <div class="p-2 flex-grow-1">
-              <input type="search" name="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-            </div>
-            <div class="p-2">
-              <button type="submit" class="btn btn-outline-dark">Search</button>
-            </div>
-          </div>
-        </form>
-        <div class="col-12 col-lg-auto mb-2 mb-md-0">
 
+        <div class="col-12 col-lg-auto mb-2 mb-md-0">
+          {% if user.is_authenticated %}
             <div class="row align-items-center">
               <div class="col p-0">
-                <div class="dropdown">
-<!--                  <a class="nav-link px-2 text-black dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">-->
-<!--                    Hello, {{user.email}}!-->
+                <div>
+                  <a class="nav-link px-2 text-black dropdown-toggle">
+                    {{user.email}}
 
-<!--                  </a>-->
-                  <div class="dropdown-menu" style="Padding:0px 0px">
-                    <li>
-                      <a class="px-4 text-black" href="#" style="text-decoration: none;">View profile</a>
-                    </li>
-                    <li>
-                      <a class="px-4 text-black" href="#" style="text-decoration: none;">Edit profile</a>
-                    </li>
-                    <li>
-                      <a class="px-4 text-black" href="#" style="text-decoration: none;">Delete profile</a>
-                    </li>
-                  </div>
+                  </a>
+
                 </div>
               </div>
               <div class="col">
-                <a href="#" class="btn btn-danger">Logout</a>
+                <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
               </div>
             </div>
-
+          {% else %}
             <div class="text-end">
-              <a href="#" class="btn btn-outline-dark me-2">Login</a>
-              <a href="#" class="btn btn-warning">Sign-up</a>
+              <a href="{% url 'login' %}" class="btn btn-outline-dark me-2">Login</a>
+              <a href="{% url 'signup' %}" class="btn btn-warning">Sign-up</a>
             </div>
-
+          {% endif %}
         </div>
+
+
       </div>
     </div>
   </header>
