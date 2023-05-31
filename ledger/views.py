@@ -8,31 +8,34 @@ from .forms import IncomesForm, ExpensesForm, IncomesCategoryForm, ExpensesCateg
 
 
 class HomeView(TemplateView):
-    template_name = "base.html"
+    template_name = "index.html"
 
     def get(self, request):
-        incomes = Incomes.objects.filter(user=request.user).order_by('date')
-        incomes_categories = [[k, sum(list(income.amount for income in incomes.filter(category__name=k))), ]
-                      for k in list(category for category in request.user.incomes_category.all())]
+        if request.user.is_authenticated:
+            incomes = Incomes.objects.filter(user=request.user).order_by('date')
+            incomes_categories = [[k, sum(list(income.amount for income in incomes.filter(category__name=k))), ]
+                          for k in list(category for category in request.user.incomes_category.all())]
 
-        incomes_total = sum([income.amount for income in incomes])
+            incomes_total = sum([income.amount for income in incomes])
 
-        expenses = Expenses.objects.filter(user=request.user).order_by('date')
-        expenses_categories = [[k, sum(list(expense.amount for expense in expenses.filter(category__name=k)))]
-                             for k in list(category for category in request.user.expenses_category.all())]
+            expenses = Expenses.objects.filter(user=request.user).order_by('date')
+            expenses_categories = [[k, sum(list(expense.amount for expense in expenses.filter(category__name=k)))]
+                                 for k in list(category for category in request.user.expenses_category.all())]
 
-        expenses_total = sum([expenses.amount for expenses in expenses])
+            expenses_total = sum([expenses.amount for expenses in expenses])
 
-        params = {
-            'incomes': incomes,
-            'incomes_categories': incomes_categories,
-            'incomes_total': incomes_total,
-            'expenses': expenses,
-            'expenses_categories': expenses_categories,
-            'expenses_total': expenses_total
-        }
+            params = {
+                'incomes': incomes,
+                'incomes_categories': incomes_categories,
+                'incomes_total': incomes_total,
+                'expenses': expenses,
+                'expenses_categories': expenses_categories,
+                'expenses_total': expenses_total
+            }
 
-        return render(request, self.template_name, params)
+            return render(request, self.template_name, params)
+        else:
+            return render(request, self.template_name)
 
 
 class CreateIncome(View):
@@ -122,7 +125,7 @@ class DeleteIncomesCategoryView(View):
     def post(self, request):
 
         category = IncomesCategory.objects.get(id=request.POST['category_id'])
-        if request.user == category.user:
+        if request.user == category.user and not Incomes.objects.filter(category=category):
             category.delete()
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -170,7 +173,7 @@ class DeleteExpensesCategoryView(View):
     @method_decorator(login_required)
     def post(self, request):
         category = ExpensesCategory.objects.get(id=request.POST['category_id'])
-        if request.user == category.user:
+        if request.user == category.user and not Expenses.objects.filter(category=category):
             category.delete()
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
