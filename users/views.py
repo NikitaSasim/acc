@@ -39,7 +39,7 @@ class SignUpView(TemplateView):
             incomes_categories = ['Salary',
                                   'Social welfare',
                                   'Property income',
-                                  'Other'
+                                  'Other income'
                                   ]
 
             for category in incomes_categories:
@@ -56,7 +56,7 @@ class SignUpView(TemplateView):
                                    'Car costs',
                                    'Savings and Investments',
                                    'Loan Payments'
-                                   'Other'
+                                   'Other expenses'
                                    ]
 
             for category in expenses_categories:
