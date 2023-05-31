@@ -502,88 +502,6 @@
             <li><a href="#" class="nav-link text-secondary">Home</a></li>
             <li><a href="#" class="nav-link text-black">Explore</a></li>
             <li><a href="#" class="nav-link text-black">Feed</a></li>
-            <li>
-              <div class="dropdown">
-                <a class="nav-link text-black dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                  New income
-                </a>
-                <div class="dropdown-menu create-new-transaction">
-                  <form method="POST" action="{% url 'add-income' %}" class="note-form" enctype="multipart/form-data">{% csrf_token %}
-                    <div class="modal-header " style="Padding:8px 16px; justify-content: center;">
-                      <h7 class="modal-title"><b>New income</b></h7>
-                    </div>
-
-
-                      <div style="Padding:10px 20px;">
-                          <label for="date" class="form-label" style="margin-right: 30px">Date: </label>
-                          <input type="date" class="form-control" id="date" name="date" required style="margin-bottom: 20px" ></input>
-                          <label for="amount" class="form-label" style="margin-right: 30px">Amount: </label>
-                          <input type="number" min="0.01" step="0.01" max="9999999999999.99" class="form-control" id="amount" name="amount" required style="margin-bottom: 20px"></input>
-                          <textarea class="form-control" id="narration" name="narration" placeholder="Start writing narration here.." style="height: 150px; margin-bottom: 20px" maxlength=100></textarea>
-                          <div class="form-floating mb-1">
-                            <div class="post-tags" style="margin-left: 0; margin-bottom: 20px">
-                              <label for="category" class="form-label" style="margin-right: 30px">Category: </label>
-                              <select class="form-select" name="category" id="category"  required style="width: 100%">
-                                  {% for category in user.get_incomes_category %}
-                                  <option value="{{category.id}}">{{category.name}}</option>
-                                  {% endfor %}
-
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="d-grid gap-3 justify-content-sm-end">
-                            <p style="Margin: 12px 0px">
-                              <input class="btn btn-outline-dark" type="reset" value="Reset" style="Padding: 2px 24px; Margin: 0px 8px">
-                              <input class="btn btn-primary" type="submit" value="Post" style=" Padding: 2px 36px">
-                            </p>
-                          </div>
-                      </div>
-                  </form>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="dropdown">
-                <a class="nav-link text-black dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                  New expense
-                </a>
-                <div class="dropdown-menu create-new-transaction">
-                  <form method="POST" action="{% url 'add-expense' %}" class="note-form" enctype="multipart/form-data">{% csrf_token %}
-                    <div class="modal-header " style="Padding:8px 16px; justify-content: center;">
-                      <h7 class="modal-title"><b>New expense</b></h7>
-                    </div>
-
-
-                      <div style="Padding:10px 20px;">
-                          <label for="date" class="form-label" style="margin-right: 30px">Date: </label>
-                          <input type="date" class="form-control" id="date" name="date" required style="margin-bottom: 20px" ></input>
-                          <label for="amount" class="form-label" style="margin-right: 30px">Amount: </label>
-                          <input type="number" min="0.01" step="0.01" max="9999999999999.99" class="form-control" id="amount" name="amount" required style="margin-bottom: 20px"></input>
-                          <textarea class="form-control" id="narration" name="narration" placeholder="Start writing narration here.." style="height: 150px; margin-bottom: 20px" maxlength=100></textarea>
-                          <div class="form-floating mb-1">
-                            <div class="post-tags" style="margin-left: 0; margin-bottom: 20px">
-                              <label for="category" class="form-label" style="margin-right: 30px">Category: </label>
-                              <select class="form-select" name="category" id="category"  required style="width: 100%">
-                                  {% for category in user.get_expenses_category %}
-                                  <option value="{{category.id}}">{{category.name}}</option>
-                                  {% endfor %}
-
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="d-grid gap-3 justify-content-sm-end">
-                            <p style="Margin: 12px 0px">
-                              <input class="btn btn-outline-dark" type="reset" value="Reset" style="Padding: 2px 24px; Margin: 0px 8px">
-                              <input class="btn btn-primary" type="submit" value="Post" style=" Padding: 2px 36px">
-                            </p>
-                          </div>
-                      </div>
-                  </form>
-                </div>
-              </div>
-            </li>
             <li><a href="#" class="nav-link px-2 text-black">Settings</a></li>
 
         </ul>
@@ -634,13 +552,14 @@
     </div>
   </header>
 
-  {% if incomes %}
+
 
   <table style="margin-left: 10px">
-      <thead>Incomes</thead>
+      <thead><h4 style="margin-left: 20px">Incomes</h4></thead>
+            <ul class="nav col-12 col-lg-auto mb-2 mb-md-0" style="margin-left: 20px">
             <li>
               <div class="dropdown">
-                <a class="btn btn-warning" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                <a class="btn btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                   Add category
                 </a>
                 <div class="dropdown-menu create-new-transaction">
@@ -665,6 +584,48 @@
                 </div>
               </div>
             </li>
+            <li>
+              <div class="dropdown">
+                <a class="btn btn-success" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                  New income
+                </a>
+                <div class="dropdown-menu create-new-transaction">
+                  <form method="POST" action="{% url 'add-income' %}" class="note-form" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="modal-header " style="Padding:8px 16px; justify-content: center;">
+                      <h7 class="modal-title"><b>New income</b></h7>
+                    </div>
+
+
+                      <div style="Padding:10px 20px;">
+                          <label for="date" class="form-label" style="margin-right: 30px">Date: </label>
+                          <input type="date" class="form-control" id="date" name="date" required style="margin-bottom: 20px" ></input>
+                          <label for="amount" class="form-label" style="margin-right: 30px">Amount: </label>
+                          <input type="number" min="0.01" step="0.01" max="9999999999999.99" class="form-control" id="amount" name="amount" required style="margin-bottom: 20px"></input>
+                          <textarea class="form-control" id="narration" name="narration" placeholder="Start writing narration here.." style="height: 150px; margin-bottom: 20px" maxlength=100></textarea>
+                          <div class="form-floating mb-1">
+                            <div class="post-tags" style="margin-left: 0; margin-bottom: 20px">
+                              <label for="category" class="form-label" style="margin-right: 30px">Category: </label>
+                              <select class="form-select" name="category" id="category"  required style="width: 100%">
+                                  {% for category in user.get_incomes_category %}
+                                  <option value="{{category.id}}">{{category.name}}</option>
+                                  {% endfor %}
+
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="d-grid gap-3 justify-content-sm-end">
+                            <p style="Margin: 12px 0px">
+                              <input class="btn btn-outline-dark" type="reset" value="Reset" style="Padding: 2px 24px; Margin: 0px 8px">
+                              <input class="btn btn-primary" type="submit" value="Post" style=" Padding: 2px 36px">
+                            </p>
+                          </div>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </li>
+            </ul>
       <tr>
           <td style="border:solid">&nbsp;</td>
           <th style="border:solid">subtotal</th>
@@ -873,18 +834,16 @@
 
   </table>
 
-  {% else %}
-  <p>No incomes</p>
-  {% endif %}
-    <p></p>
-    <p></p>
-  {% if expenses %}
 
-  <table style="margin-left: 30px">
-      <thead>Expenses</thead>
+    <p></p>
+    <p></p>
+
+  <table style="margin-left: 10px">
+      <thead><h4 style="margin-left: 20px">Expenses</h4></thead>
+        <ul class="nav col-12 col-lg-auto mb-2 mb-md-0" style="margin-left: 20px">
             <li>
               <div class="dropdown">
-                <a class="btn btn-warning" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                <a class="btn btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                   Add category
                 </a>
                 <div class="dropdown-menu create-new-transaction">
@@ -909,6 +868,50 @@
                 </div>
               </div>
             </li>
+
+            <li>
+              <div class="dropdown">
+                <a class="btn btn-success" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                  New expense
+                </a>
+                <div class="dropdown-menu create-new-transaction">
+                  <form method="POST" action="{% url 'add-expense' %}" class="note-form" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="modal-header " style="Padding:8px 16px; justify-content: center;">
+                      <h7 class="modal-title"><b>New expense</b></h7>
+                    </div>
+
+
+                      <div style="Padding:10px 20px;">
+                          <label for="date" class="form-label" style="margin-right: 30px">Date: </label>
+                          <input type="date" class="form-control" id="date" name="date" required style="margin-bottom: 20px" ></input>
+                          <label for="amount" class="form-label" style="margin-right: 30px">Amount: </label>
+                          <input type="number" min="0.01" step="0.01" max="9999999999999.99" class="form-control" id="amount" name="amount" required style="margin-bottom: 20px"></input>
+                          <textarea class="form-control" id="narration" name="narration" placeholder="Start writing narration here.." style="height: 150px; margin-bottom: 20px" maxlength=100></textarea>
+                          <div class="form-floating mb-1">
+                            <div class="post-tags" style="margin-left: 0; margin-bottom: 20px">
+                              <label for="category" class="form-label" style="margin-right: 30px">Category: </label>
+                              <select class="form-select" name="category" id="category"  required style="width: 100%">
+                                  {% for category in user.get_expenses_category %}
+                                  <option value="{{category.id}}">{{category.name}}</option>
+                                  {% endfor %}
+
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="d-grid gap-3 justify-content-sm-end">
+                            <p style="Margin: 12px 0px">
+                              <input class="btn btn-outline-dark" type="reset" value="Reset" style="Padding: 2px 24px; Margin: 0px 8px">
+                              <input class="btn btn-primary" type="submit" value="Post" style=" Padding: 2px 36px">
+                            </p>
+                          </div>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </li>
+
+        </ul>
       <tr>
           <td style="border:solid">&nbsp;</td>
           <th style="border:solid">subtotal</th>
@@ -1117,9 +1120,6 @@
 
   </table>
 
-  {% else %}
-  <p>No expenses</p>
-  {% endif %}
 
 
 
