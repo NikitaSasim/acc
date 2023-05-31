@@ -97,6 +97,17 @@
 
                   <div class="modal fade" id="deleteIncomeCategoryModal{{ category.0.id }}" tabindex="-1" aria-labelledby="deleteIncomeCategoryModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
+                        {% if category.1 %}
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="deleteIncomeCategoryModal">Category "{{ category.0.name }}" cannot be deleted due to existing entries</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                        {% else %}}
                       <div class="modal-content">
                         <div class="modal-header">
                           <h1 class="modal-title fs-5" id="deleteIncomeCategoryModal">Are you sure you want to delete category <br>"{{ category.0.name }}"?</h1>
@@ -108,6 +119,8 @@
                             <input type="hidden" name="category_id" value="{{ category.0.id }}">
                         </div>
                       </div>
+                        {% endif %}
+
                     </div>
                   </div>
 
@@ -383,6 +396,17 @@
 
                   <div class="modal fade" id="deleteExpenseCategoryModal{{ category.0.id }}" tabindex="-1" aria-labelledby="deleteExpenseCategoryModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
+                        {% if category.1 %}
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="deleteExpenseCategoryModal">Category "{{ category.0.name }}" cannot be deleted due to existing entries</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                        {% else %}
                       <div class="modal-content">
                         <div class="modal-header">
                           <h1 class="modal-title fs-5" id="deleteExpenseCategoryModal">Are you sure you want to delete category <br>"{{ category.0.name }}"?</h1>
@@ -394,6 +418,9 @@
                             <input type="hidden" name="category_id" value="{{ category.0.id }}">
                         </div>
                       </div>
+                        {% endif %}
+
+
                     </div>
                   </div>
 

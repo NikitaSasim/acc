@@ -125,7 +125,7 @@ class DeleteIncomesCategoryView(View):
     def post(self, request):
 
         category = IncomesCategory.objects.get(id=request.POST['category_id'])
-        if request.user == category.user:
+        if request.user == category.user and not Incomes.objects.filter(category=category):
             category.delete()
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -173,7 +173,7 @@ class DeleteExpensesCategoryView(View):
     @method_decorator(login_required)
     def post(self, request):
         category = ExpensesCategory.objects.get(id=request.POST['category_id'])
-        if request.user == category.user:
+        if request.user == category.user and not Expenses.objects.filter(category=category):
             category.delete()
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
