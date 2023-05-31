@@ -12,6 +12,9 @@ from django.http.response import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
+from ledger.models import ExpensesCategory
+
+
 # import stripe
 
 
@@ -28,12 +31,39 @@ class SignUpView(TemplateView):
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password2'])
             new_user.save()
-            user_form.save_m2m()
 
             new_user = authenticate(
                 email=user_form.cleaned_data['email'], password=user_form.cleaned_data['password2']
             )
 
+            incomes_categories = ['Salary',
+                                  'Social welfare',
+                                  'Property income',
+                                  'Other'
+                                  ]
+
+            for category in incomes_categories:
+                incomes_category = ExpensesCategory.objects.create(
+                    name=category, user=new_user)
+
+            login(request, new_user)
+
+            expenses_categories = ['Food',
+                                   'Utilities',
+                                   'Clothes',
+                                   'Recreation and Entertainment',
+                                   'Healthcare',
+                                   'Car costs',
+                                   'Savings and Investments',
+                                   'Loan Payments'
+                                   'Other'
+                                   ]
+
+            for category in expenses_categories:
+                expenses_category = ExpensesCategory.objects.create(
+                    name=category, user=new_user)
+
+            login(request, new_user)
             return redirect("ledger-home")
 
         return render(request, self.template_name, {'user_form': user_form,})
