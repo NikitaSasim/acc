@@ -38,8 +38,15 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'users',
-    'ledger'
+    'ledger',
+    'rest_framework',
+    'api',
+    'django_filters'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend'
