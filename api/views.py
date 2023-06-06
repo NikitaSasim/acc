@@ -29,7 +29,7 @@ class UserTransactionsApiView(APIView):
     def get(self, request):
 
         if self.request.query_params.get('token') != os.getenv("TG_TOKEN"):
-            print(self.request.query_params.get('acc_token'))
+            print(self.request.query_params.get('token'))
             print(os.getenv("TG_TOKEN"))
             return Response({}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -41,6 +41,7 @@ class UserTransactionsApiView(APIView):
         expenses = expenses.filter(user=user)
 
         response = {'user': user.id}
+        response['currency'] = user.currency
 
         incomes_list = []
         for item in incomes:
@@ -81,41 +82,30 @@ class IncomeAddApiView(APIView):
 
 
     def post(self, request):
-        # if request.method == 'POST':
 
         data = request.data.dict()
         print(data)
         try:
-            # if form.is_valid():
+
             user = User.objects.get(id=int(data['user']))
             print(user)
             category = IncomesCategory.objects.get(id=int(data['category']))
             print(category)
             date = datetime.datetime.strptime(data['date'], '%Y.%m.%d').date()
             print(date)
-            # date = datetime.date(date)
-            # print(date)
             amount = float(data['amount'])
             print(amount)
             narration = data['narration']
             print(narration)
             new_income = Incomes(user=user, category=category, date=date, amount=amount, narration=narration)
-            # new_income.user = user
-            # new_income.category = category
+
             new_income.save()
             return Response('Income created', status=status.HTTP_201_CREATED)
         except:
             return Response('Bad data', status=status.HTTP_400_BAD_REQUEST)
 
 
-        # data = self.request.query_params.get
-        # income_serializer = serializers.IncomeAddSerializer(data=data)
-        # try income_serializer.is_valid():
-        #     nem_income = income_serializer.save()
-        #     return Response('Income created', status=status.HTTP_201_CREATED)
-        # else:
-        #     print(income_serializer.data)
-        #     return Response('Bad data', status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
