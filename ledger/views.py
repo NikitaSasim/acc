@@ -73,7 +73,7 @@ class CreateExpense(View):
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
             else:
-                form = ExpensesForm()
+                form = ExpensesсвForm()
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 

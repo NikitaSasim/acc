@@ -105,7 +105,20 @@ class IncomeAddApiView(APIView):
             return Response('Bad data', status=status.HTTP_400_BAD_REQUEST)
 
 
+class SetIdApiView(APIView):
+    def post(self, request):
 
+        data = request.data.dict()
+        if data['token'] != os.getenv("TG_TOKEN"):
+            return Response({}, status=status.HTTP_401_UNAUTHORIZED)
+        try:
+            user = User.objects.get(key=data['key'])
+            user.telegram_id = int(data['user'])
+            user.key = ''
+            user.save()
+            return Response(status=status.HTTP_200_OK)
+        except:
+            return Response('Bad data', status=status.HTTP_400_BAD_REQUEST)
 
 
 
