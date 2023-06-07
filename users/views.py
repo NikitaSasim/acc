@@ -3,16 +3,19 @@ from django.contrib.auth import login, authenticate
 from django.views.generic import TemplateView, DeleteView, View
 from django.contrib.messages.views import SuccessMessageMixin
 from .forms import CustomUserCreationForm, ProfileEditForm
-
+import random
 import re
 from .models import User
 from django.urls import reverse_lazy
 from django.conf import settings
 from django.http.response import JsonResponse, HttpResponse
+import string
+import secrets
+from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
-from ledger.models import ExpensesCategory
+from ledger.models import ExpensesCategory, IncomesCategory
 
 
 # import stripe
@@ -28,14 +31,26 @@ class SignUpView(TemplateView):
     def post(self, request):
         user_form = CustomUserCreationForm(request.POST)
         if user_form.is_valid():
+            alphabet = string.ascii_letters + string.digits
+            key = ''.join(secrets.choice(alphabet) for i in range(14))
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password2'])
+            new_user.key = key
             new_user.save()
 
             new_user = authenticate(
                 email=user_form.cleaned_data['email'], password=user_form.cleaned_data['password2']
             )
 
+            subject = 'Registration at Acc'
+            message = f"Hi there!\n\nYou was successfully registered at Acc.\n\n" \
+                      f"For the full operation of the service, you need to connect a telegram account to it.\n\n" \
+                      f"If this doesn't work copy and paste the following link into your browser:\n\n" \
+                      f"https://t.me/NikAccountantBot?start={key}\n\n" \
+                      f"Many thanks for your interest to our project."
+            addresser = 'from@example.com'
+            addressee = new_user.email
+            send_mail(subject, message, addresser, [addressee], fail_silently=True,)
             incomes_categories = ['Salary',
                                   'Social welfare',
                                   'Property income',
@@ -43,10 +58,10 @@ class SignUpView(TemplateView):
                                   ]
 
             for category in incomes_categories:
-                incomes_category = ExpensesCategory.objects.create(
+                incomes_category = IncomesCategory.objects.create(
                     name=category, user=new_user)
 
-            login(request, new_user)
+
 
             expenses_categories = ['Food',
                                    'Utilities',
@@ -55,7 +70,7 @@ class SignUpView(TemplateView):
                                    'Healthcare',
                                    'Car costs',
                                    'Savings and Investments',
-                                   'Loan Payments'
+                                   'Loan Payments',
                                    'Other expenses'
                                    ]
 

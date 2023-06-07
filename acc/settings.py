@@ -23,6 +23,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 AUTH_USER_MODEL = 'users.User'
 # Application definition
 
@@ -113,6 +114,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+EMAIL_HOST = "app.debugmail.io"
+EMAIL_HOST_USER = "5983f358-e983-42a4-817f-60c431e4a8c3"
+EMAIL_HOST_PASSWORD = "6eaf715c-b42a-448e-bc40-eb8d17e37447"
+EMAIL_PORT = "25"
 
 
 # Internationalization

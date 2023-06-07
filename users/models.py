@@ -12,6 +12,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     currency = models.CharField(max_length=10, default='USD')
+    key = models.CharField(max_length=15, blank=True, null=True)
 
     objects = UserManager()
 
