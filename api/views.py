@@ -11,7 +11,7 @@ from users.models import User
 import datetime
 import json
 
-from .forms import IncomeApiForm
+
 
 
 class IncomesCategoriesListApiView(generics.ListAPIView):
@@ -24,6 +24,18 @@ class IncomesCategoriesListApiView(generics.ListAPIView):
         telegram_id = self.request.query_params.get('user')
         queryset = queryset.filter(user__telegram_id=telegram_id)
         return queryset
+
+
+class ExpensesCategoryListApiView(generics.ListAPIView):
+    serializer_class = serializers.ExpensesCategorySerializer
+    queryset = ExpensesCategory.objects.all()
+
+    def get_queryset(self):
+        queryset = ExpensesCategory.objects.all()
+        telegram_id = self.request.query_params.get('user')
+        queryset = queryset.filter(user__telegram_id=telegram_id)
+        return queryset
+
 
 class UserTransactionsApiView(APIView):
     def get(self, request):
@@ -68,15 +80,7 @@ class UserTransactionsApiView(APIView):
 
         return Response(response, status=status.HTTP_200_OK)
 
-class ExpensesCategoryListApiView(generics.ListAPIView):
-    serializer_class = serializers.ExpensesCategorySerializer
-    queryset = ExpensesCategory.objects.all()
 
-    def get_queryset(self):
-        queryset = ExpensesCategory.objects.all()
-        user_id = self.request.query_params.get('user')
-        queryset = queryset.filter(user__id=user_id)
-        return queryset
 
 class IncomeAddApiView(APIView):
 
@@ -101,6 +105,33 @@ class IncomeAddApiView(APIView):
 
             new_income.save()
             return Response('Income created', status=status.HTTP_201_CREATED)
+        except:
+            return Response('Bad data', status=status.HTTP_400_BAD_REQUEST)
+
+
+class ExpenseAddApiView(APIView):
+
+
+    def post(self, request):
+
+        data = request.data.dict()
+        print(data)
+        try:
+
+            user = User.objects.get(id=int(data['user']))
+            print(user)
+            category = ExpensesCategory.objects.get(id=int(data['category']))
+            print(category)
+            date = datetime.datetime.strptime(data['date'], '%Y.%m.%d').date()
+            print(date)
+            amount = float(data['amount'])
+            print(amount)
+            narration = data['narration']
+            print(narration)
+            new_expense = Expenses(user=user, category=category, date=date, amount=amount, narration=narration)
+
+            new_expense.save()
+            return Response('Expense created', status=status.HTTP_201_CREATED)
         except:
             return Response('Bad data', status=status.HTTP_400_BAD_REQUEST)
 
