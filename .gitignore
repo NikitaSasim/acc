@@ -8,7 +8,7 @@
 *.pyc
 *.sqlite3
 *.pot
-config.py
+
 #idea
 .idea
 

@@ -16,9 +16,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
 from ledger.models import ExpensesCategory, IncomesCategory
+from .apps import send_message
 
 
-# import stripe
+
 
 
 class SignUpView(TemplateView):
@@ -41,16 +42,8 @@ class SignUpView(TemplateView):
             new_user = authenticate(
                 email=user_form.cleaned_data['email'], password=user_form.cleaned_data['password2']
             )
+            login(request, new_user)
 
-            subject = 'Registration at Acc'
-            message = f"Hi there!\n\nYou was successfully registered at Acc.\n\n" \
-                      f"For the full operation of the service, you need to connect a telegram account to it.\n\n" \
-                      f"If this doesn't work copy and paste the following link into your browser:\n\n" \
-                      f"https://t.me/NikAccountantBot?start={key}\n\n" \
-                      f"Many thanks for your interest to our project."
-            addresser = 'from@example.com'
-            addressee = new_user.email
-            send_mail(subject, message, addresser, [addressee], fail_silently=True,)
             incomes_categories = ['Salary',
                                   'Social welfare',
                                   'Property income',
@@ -58,8 +51,9 @@ class SignUpView(TemplateView):
                                   ]
 
             for category in incomes_categories:
-                incomes_category = IncomesCategory.objects.create(
-                    name=category, user=new_user)
+                incomes_category = IncomesCategory.objects.create(name=category, user=new_user)
+                incomes_category.save()
+
 
 
 
@@ -75,10 +69,12 @@ class SignUpView(TemplateView):
                                    ]
 
             for category in expenses_categories:
-                expenses_category = ExpensesCategory.objects.create(
-                    name=category, user=new_user)
+                expenses_category = ExpensesCategory.objects.create(name=category, user=new_user)
+                expenses_category.save()
 
-            login(request, new_user)
+            send_message(key=key, email=new_user.email)
+
+
             return redirect("ledger-home")
 
         return render(request, self.template_name, {'user_form': user_form,})

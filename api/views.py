@@ -39,10 +39,12 @@ class ExpensesCategoryListApiView(generics.ListAPIView):
 
 class UserTransactionsApiView(APIView):
     def get(self, request):
+        print(self.request.query_params.get('token'))
+        print(os.environ.get("TG_TOKEN"))
 
-        if self.request.query_params.get('token') != os.getenv("TG_TOKEN"):
+        if self.request.query_params.get('token') != os.environ.get("TG_TOKEN"):
             print(self.request.query_params.get('token'))
-            print(os.getenv("TG_TOKEN"))
+            print(os.environ.get("TG_TOKEN"))
             return Response({}, status=status.HTTP_401_UNAUTHORIZED)
 
         telegram_id = self.request.query_params.get('user')
@@ -140,7 +142,7 @@ class SetIdApiView(APIView):
     def post(self, request):
 
         data = request.data.dict()
-        if data['token'] != os.getenv("TG_TOKEN"):
+        if data['token'] != os.environ.get("TG_TOKEN"):
             return Response({}, status=status.HTTP_401_UNAUTHORIZED)
         try:
             user = User.objects.get(key=data['key'])
