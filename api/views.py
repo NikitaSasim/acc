@@ -1,15 +1,15 @@
 import os
 
-import requests
+
 from rest_framework import generics, status
 from rest_framework.views import APIView
-from django_filters.rest_framework import DjangoFilterBackend
+
 from rest_framework.response import Response
 from . import serializers
 from ledger.models import IncomesCategory, ExpensesCategory, Incomes, Expenses
 from users.models import User
 import datetime
-import json
+
 
 
 
@@ -39,12 +39,10 @@ class ExpensesCategoryListApiView(generics.ListAPIView):
 
 class UserTransactionsApiView(APIView):
     def get(self, request):
-        print(self.request.query_params.get('token'))
-        print(os.environ.get("TG_TOKEN"))
+
 
         if self.request.query_params.get('token') != os.environ.get("TG_TOKEN"):
-            print(self.request.query_params.get('token'))
-            print(os.environ.get("TG_TOKEN"))
+
             return Response({}, status=status.HTTP_401_UNAUTHORIZED)
 
         telegram_id = self.request.query_params.get('user')
@@ -117,19 +115,19 @@ class ExpenseAddApiView(APIView):
     def post(self, request):
 
         data = request.data.dict()
-        print(data)
+
         try:
 
             user = User.objects.get(id=int(data['user']))
-            print(user)
+
             category = ExpensesCategory.objects.get(id=int(data['category']))
-            print(category)
+
             date = datetime.datetime.strptime(data['date'], '%Y.%m.%d').date()
-            print(date)
+
             amount = float(data['amount'])
-            print(amount)
+
             narration = data['narration']
-            print(narration)
+
             new_expense = Expenses(user=user, category=category, date=date, amount=amount, narration=narration)
 
             new_expense.save()

@@ -3,17 +3,14 @@ from django.contrib.auth import login, authenticate
 from django.views.generic import TemplateView, DeleteView, View
 from django.contrib.messages.views import SuccessMessageMixin
 from .forms import CustomUserCreationForm, ProfileEditForm
-import random
-import re
+
 from .models import User
 from django.urls import reverse_lazy
 from django.conf import settings
 from django.http.response import JsonResponse, HttpResponse
 import string
 import secrets
-from django.core.mail import send_mail
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
+
 
 from ledger.models import ExpensesCategory, IncomesCategory
 from .apps import send_message
@@ -115,61 +112,6 @@ class DeleteUser(SuccessMessageMixin, DeleteView):
 
 
 
-class StripeConfigView(View):
-    def get(self, request):
-        stripe_config = {"publicKey": settings.STRIPE_PUBLISHABLE_KEY}
-        return JsonResponse(stripe_config, safe=False)
 
 
-# class StripeCheckoutView(View):
-#     def get(self, request):
-#         domain_url = "http://localhost:8000"
-#         stripe.api_key = settings.STRIPE_SECRET_KEY
-#         try:
-#             user_id = request.user.id  # Get the user ID
-#             url = f"{domain_url}{request.user.get_user_url()}"
-#             print(url)
-#             checkout_session = stripe.checkout.Session.create(
-#                 success_url=f"{domain_url}{request.user.get_user_url()}",
-#                 cancel_url=domain_url,
-#                 mode='payment',
-#                 line_items=[
-#                     {
-#                         "price": "price_1N1Y8aDwbEIL0c1OlNOZ3mpi",
-#                         "quantity": 1,
-#                     },
-#                 ],
-#                 metadata={  # Include the user ID in the metadata
-#                     'user_id': user_id
-#                 }
-#             )
-#             print(checkout_session)
-#             return JsonResponse({'sessionId': checkout_session['id']})
-#         except Exception as e:
-#             return JsonResponse({"error": str(e)})
-#
-#
-# @csrf_exempt
-# def stripe_webhook(request):
-#     stripe.api_key = settings.STRIPE_SECRET_KEY
-#     endpoint_secret = settings.STRIPE_ENDPOINT_SECRET
-#     payload = request.body
-#     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-#     event = None
-#
-#     try:
-#         event = stripe.Webhook.construct_event(
-#             payload, sig_header, endpoint_secret)
-#     except ValueError as e:
-#         return HttpResponse(status=400)
-#     except stripe.error.SignatureVerificationError as e:
-#         return HttpResponse(status=400)
-#
-#     if event['type'] == 'checkout.session.completed':
-#         print("Payment was successful!")
-#         session = event['data']['object']
-#         user_id = session['metadata']['user_id']  # Retrieve the user ID from the metadata
-#         user = User.objects.get(id=user_id)
-#         user.is_verified = True
-#         user.save()
-#     return HttpResponse(status=200)
+

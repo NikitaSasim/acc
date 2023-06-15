@@ -1,11 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
-# import international.models
-# choices = international.models.currencies
-#
-# class Currency(models.Model):
-#       currency_code = models.CharField(max_length=100, choices=choices)
+
 
 
 class IncomesCategory(models.Model):

@@ -1,7 +1,7 @@
-import os
+
 from django.core.mail import send_mail
 from django.apps import AppConfig
-import requests
+
 from dotenv import load_dotenv
 
 load_dotenv()
