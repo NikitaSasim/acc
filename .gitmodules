@@ -1,0 +1,3 @@
+[submodule "acc_bot"]
+	path = acc_bot
+	url = https://github.com/NikitaSasim/acc_bot
